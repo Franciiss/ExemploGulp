@@ -2,7 +2,7 @@ $box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
 $webkit-transition: opacity .3s 0s, visibility 0s 0s, background-color .3s 0s;
 $transition: opacity .3s 0s, visibility 0s .3s, background-color .3s 0s;
 $visible: visible;
-$background-color: #e86256; 
+$background-color: #e86256;
 
 @mixin box-shadow() {
   -webkit-box-shadow: $box-shadow;
@@ -26,7 +26,7 @@ $background-color: #e86256;
   overflow: hidden;
   text-indent: 100%;
   white-space: nowrap;
-  background:rgba(232, 98, 86, 0.8) url(../img/cd-top-arrow.svg) no-repeat center 50%;
+  background:#ffa69e url(../img/cd-top-arrow.svg) no-repeat center 50%;
   visibility: hidden;
   opacity:0;
 }

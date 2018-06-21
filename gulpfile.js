@@ -31,9 +31,20 @@ var htmlmin = require('gulp-htmlmin');
 sass = require('gulp-sass'),
 sourcemaps = require('gulp-sourcemaps');
 
+var sassDevOptions = {
+    outputStyle: 'expanded'
+}
+  
+// Produção
+
+var sassProdOptions = {
+    outputStyle: 'compressed'
+}
+
 var config = {
     srcPath: 'src/',
-    distPath: 'dist/'
+    distPath: 'dist/',
+    sassPath: 'src/sass/*.scss'
   };
 
 gulp.task('default', ['copy'], function() {
@@ -59,7 +70,7 @@ gulp.task('build-img',  function() {
 
 gulp.task('merge-css', function() {
     gulp.src(['src/css/*.css'])
-        .pipe(concat('styles.css') )
+        .pipe(concat('styles.min.css') )
         .pipe(cleanCSS() ) // <--- Minificando CSS
         .pipe(gulp.dest('dist/css') );
  });
@@ -117,6 +128,25 @@ gulp.task('jshint', function() {
         verbose: true,
         reasonCol: 'cyan,bold'
     }));
+});
+
+// ********** SASS **********
+
+gulp.task('sass-dev', function() {
+    return gulp.src(config.sassPath)
+      .pipe(sass(sassDevOptions).on('error', sass.logError))
+      .pipe(gulp.dest(config.srcPath+'css'));
+  });
+
+gulp.task('sass-prod', function() {
+    return gulp.src(config.sassPath)
+      .pipe(sass(sassProdOptions).on('error', sass.logError))
+      .pipe(rename('styles.min.css'))
+      .pipe(gulp.dest(config.distPath+'css'));
+});
+
+gulp.task('watch-sass', function() {
+    gulp.watch(config.sassPath, ['sass-dev', 'sass-prod', 'browserSync']);
 });
 
 gulp.task('sass', function(){
