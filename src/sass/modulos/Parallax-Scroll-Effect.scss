@@ -1,16 +1,4 @@
-$fontes: 'Roboto', 'arial black';
-$cor-primaria: white;
-$fundo-cover: cover;
-$display: table;
-$backgroundAttachment: fixed;
-
-@mixin heightEWidth($propertyHeight, $propertyWidth){
-  height: $propertyHeight;
-  width: $propertyWidth;
-}
-
-
-#box-1 {
+  #box-1 {
     @include heightEWidth(100vh, 100%);
     height: 100vh;
     width: 100%;
