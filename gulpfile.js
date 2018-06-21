@@ -27,8 +27,17 @@ const browserSync = require('browser-sync');
 // # Plugin Escolhido #
 var htmlmin = require('gulp-htmlmin');
 
+// # SASS #
+sass = require('gulp-sass'),
+sourcemaps = require('gulp-sourcemaps');
+
+var config = {
+    srcPath: 'src/',
+    distPath: 'dist/'
+  };
+
 gulp.task('default', ['copy'], function() {
-    gulp.start('build-img', 'merge-css', 'compress', 'html-minify', 'html-replace',  );
+    gulp.start('build-img', 'sass','merge-css', 'html-replace', 'html-minify', 'compress');
 })
 
 gulp.task('clean', function() {
@@ -42,32 +51,29 @@ gulp.task('copy', ['clean'] ,  function() {
 });
 
 gulp.task('build-img',  function() {
-    gulp.src('dist/img/**/*')
+    gulp.src('src/img/**/*')
         .pipe(imagemin() )
         .pipe(gulp.dest('dist/img') );
 
 });
 
 gulp.task('merge-css', function() {
-    gulp.src(['dist/css/Bold-BS4-Animated-Back-To-Top.css',
-              'dist/css/styles.css',
-              'dist/css/Parallax-Scroll-Effect.css',
-            ])
+    gulp.src(['src/css/*.css'])
         .pipe(concat('styles.css') )
         .pipe(cleanCSS() ) // <--- Minificando CSS
         .pipe(gulp.dest('dist/css') );
  });
 
  gulp.task('html-replace', function() {
-    gulp.src('src/**/*.html')
-    .pipe(htmlReplace({css:'css/styles.css'}) )
-    .pipe(gulp.dest('dist') );
+    gulp.src('src/*.html')
+    .pipe(htmlReplace({css:'css/styles.css'}))
+    .pipe(gulp.dest('dist'));
  });
 
  gulp.task('html-minify', function() {
-    return gulp.src('src/*.html')
+    return gulp.src('dist/*.html')
       .pipe(htmlmin({collapseWhitespace: true}))
-      .pipe(gulp.dest('dist/'));
+      .pipe(gulp.dest('dist'));
   });
 
  gulp.task('browser-sync', function() {
@@ -96,7 +102,7 @@ gulp.task('css-observer', function() {
 
 gulp.task('compress', function (cb) {
   pump([
-        gulp.src('src/*.js'),
+        gulp.src('src/js/*.js'),
         uglify(),
         gulp.dest('dist/js')
     ],
@@ -110,5 +116,19 @@ gulp.task('jshint', function() {
       .pipe(jshint.reporter('jshint-summary', {
         verbose: true,
         reasonCol: 'cyan,bold'
+    }));
+});
+
+gulp.task('sass', function(){
+    //a marcação define que iremos pegar todos os arquivos SCSS e Sass da pasta src/sass, inclusive subpastas e seu conteúdo se houverem
+    return gulp.src(config.srcPath+'sass/**/*.+(scss|sass)')
+      .pipe(sourcemaps.init()) //iniciamos o sourcemap para gravar o MAP para debuging
+      .pipe(sass({ //iniciamos o modulo do Sass
+        outputStyle: 'compressed' //adicionamos a opção para que o produto final seja comprimido/minificado
+      }).on('error', sass.logError)) // Se der erro exibirá um log e criará um arquivo para análise
+      .pipe(sourcemaps.write('./')) //Escrevera o sourcemap na mesma pasta ou subpasta do CSS gerado
+      .pipe(gulp.dest(config.distPath+'css')) //Irá salvar o arquivo na estrutura equivalente dentro da pasta /dist/css
+      .pipe(browserSync.reload({ //ativa o reload da pagina quando terminar de fazer o Sync
+        stream: true // (se o servidor estiver iniciado ele dá o reload)
       }));
-    });
+  });
