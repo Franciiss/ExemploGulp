@@ -1,0 +1,12 @@
+%position {
+    position: fixed;
+}
+
+%transition {
+    -webkit-transition: $webkit-transition;
+    transition: $transition;
+}
+
+%box-shadow{
+    box-shadow:  0 10px rgba(0, 0, 0, 0.05);
+}

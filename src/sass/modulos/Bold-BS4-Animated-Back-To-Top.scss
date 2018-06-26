@@ -1,12 +1,10 @@
 .cd-top {
   display: inline-block;
-  height: 40px;
-  width: 40px;
-  position: fixed;
-  bottom: 40px;
-  right:10px;
-  @include box-shadow();
-  @include transition();
+  @include bottomERight(40px, 10px);
+  @include heightEWidth(40px, 40px);
+  @extend %position;
+  @extend %box-shadow;
+  @extend %transition;
   overflow: hidden;
   text-indent: 100%;
   white-space: nowrap;
@@ -16,36 +14,33 @@
 }
 
 .cd-top.cd-top--show, .cd-top.cd-top--fade-out, .cd-top:hover {
-  @include transition();
+  @extend %transition;
 }
 
 .cd-top.cd-top--show {
   visibility: $visible;
-  opacity: 1;
+  @include opacidade(1);
 }
 
 .cd-top.cd-top--fade-out {
-  opacity: .5;
+  @include opacidade(.5);
 }
 
 .cd-top:hover {
   background-color: $background-color;
-  opacity: 1;
+  @include opacidade(1);
 }
 
 @media only screen and (min-width: 768px) {
   .cd-top {
-    right: 20px;
-    bottom: 20px;
+    @include bottomERight(20px, 20px);
   }
 }
 
 @media only screen and (min-width: 1024px) {
   .cd-top {
-    height:60px;
-    width:60px;
-    right:30px;
-    bottom:30px;
+    @include heightEWidth(60px, 60px);
+    @include bottomERight(30px, 30px);
   }
 }
 

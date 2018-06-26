@@ -1,8 +1,6 @@
   #box-1 {
     @include heightEWidth(100vh, 100%);
-    height: 100vh;
-    width: 100%;
-    background-image: url('../img/i1.jpg');
+    @include background-image("../img/i1.jpg");
     background-size: $fundo-cover;
     display: $display;
     background-attachment: $backgroundAttachment;
@@ -10,7 +8,7 @@
   
   #box-2 {
     @include heightEWidth(100vh, 100%);
-    background-image: url('../img/i2.jpg');
+    @include background-image("../img/i2.jpg");
     background-size: $fundo-cover;
     display: $display;
     background-attachment: $backgroundAttachment;
@@ -18,7 +16,7 @@
   
   #box-3 {
     @include heightEWidth(100vh, 100%);
-    background-image: url('../img/i3.jpg');
+    @include background-image("../img/i3.jpg");
     background-size: $fundo-cover;
     display: $display;
     background-attachment: $backgroundAttachment;
@@ -26,12 +24,10 @@
   
   h1 {
     font-family: $fontes;
-    font-size: 50px;
+    font-size: $tamanho-fonte;
     color: $cor-primaria;
-    margin: 0px;
-    text-align: center;
-    display: table-cell;
-    vertical-align: middle;
+    @include margem(0);
+    text-align: $alinhamento-texto;
+    display: $display-table-cell;
+    vertical-align: $alinhamento-vertical;
   }
-  
-  

@@ -25,13 +25,13 @@ const imagemin = require('gulp-imagemin');
 const browserSync = require('browser-sync');
 
 // # Plugin Escolhido #
-var htmlmin = require('gulp-htmlmin');
+const htmlmin = require('gulp-htmlmin');
 
 // # SASS #
 sass = require('gulp-sass'),
 sourcemaps = require('gulp-sourcemaps');
 
-var sassDevOptions = {
+sassDevOptions = {
     outputStyle: 'expanded'
 }
   
@@ -77,7 +77,7 @@ gulp.task('merge-css', function() {
 
  gulp.task('html-replace', function() {
     gulp.src('src/*.html')
-    .pipe(htmlReplace({css:'css/styles.css'}))
+    .pipe(htmlReplace({css:'css/styles.min.css'}))
     .pipe(gulp.dest('dist'));
  });
 
@@ -98,12 +98,6 @@ gulp.task('merge-css', function() {
 
  });
   
- //     gulp.watch('src/**/*')
- //     .on('change',  function() {
- //       browserSync.reload();
- //      });        
-
- 
  /* monitorar erros em arquivos css */
 gulp.task('css-observer', function() {
   gulp.src('src/css/*.css')
@@ -145,20 +139,6 @@ gulp.task('sass-prod', function() {
       .pipe(gulp.dest(config.distPath+'css'));
 });
 
-gulp.task('watch-sass', function() {
-    gulp.watch(config.sassPath, ['sass-dev', 'sass-prod', 'browserSync']);
+gulp.task('watch-sass', ['sass-dev', 'sass-prod', 'browser-sync'], function() {
+    gulp.watch(config.srcPath+'sass/**/*.scss', ['sass-dev', 'sass-prod']);
 });
-
-gulp.task('sass', function(){
-    //a marcação define que iremos pegar todos os arquivos SCSS e Sass da pasta src/sass, inclusive subpastas e seu conteúdo se houverem
-    return gulp.src(config.srcPath+'sass/**/*.+(scss|sass)')
-      .pipe(sourcemaps.init()) //iniciamos o sourcemap para gravar o MAP para debuging
-      .pipe(sass({ //iniciamos o modulo do Sass
-        outputStyle: 'compressed' //adicionamos a opção para que o produto final seja comprimido/minificado
-      }).on('error', sass.logError)) // Se der erro exibirá um log e criará um arquivo para análise
-      .pipe(sourcemaps.write('./')) //Escrevera o sourcemap na mesma pasta ou subpasta do CSS gerado
-      .pipe(gulp.dest(config.distPath+'css')) //Irá salvar o arquivo na estrutura equivalente dentro da pasta /dist/css
-      .pipe(browserSync.reload({ //ativa o reload da pagina quando terminar de fazer o Sync
-        stream: true // (se o servidor estiver iniciado ele dá o reload)
-      }));
-  });

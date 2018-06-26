@@ -7,3 +7,8 @@
     -webkit-transition: $webkit-transition;
     transition: $transition;
 }
+
+@mixin heightEWidth($propertyHeight, $propertyWidth){
+  height: $propertyHeight;
+  width: $propertyWidth;
+}

@@ -1,0 +1,22 @@
+@mixin background-image($imagem){
+  background-image: url($imagem);
+  //background-image: url('../img/i1.jpg');
+}
+
+@mixin heightEWidth($propertyHeight, $propertyWidth){
+  height: $propertyHeight;
+  width: $propertyWidth;
+}
+
+@mixin bottomERight($bottom, $right){
+  bottom: $bottom;
+  right: $right;
+}
+
+@mixin opacidade($propriedade){
+  opacity: $propriedade;
+}
+
+@mixin margem($valor){
+  margin: $valor;
+}
